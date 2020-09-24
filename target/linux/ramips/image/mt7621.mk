@@ -397,6 +397,22 @@ define Device/hiwifi_hc5962
 endef
 TARGET_DEVICES += hiwifi_hc5962
 
+define Device/raisecom_msg1500
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  KERNEL_SIZE := 4096k
+  UBINIZE_OPTS := -E 5
+  IMAGE_SIZE := 32768k
+  IMAGES += factory.bin
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+  IMAGE/factory.bin := append-kernel | pad-to $$(KERNEL_SIZE) | append-ubi | \
+	check-size
+  DEVICE_VENDOR := RAISECOM
+  DEVICE_MODEL := MSG1500
+  DEVICE_PACKAGES := kmod-mt7615d luci-app-mtwifi
+endef
+TARGET_DEVICES += raisecom_msg1500
+
 define Device/iodata_wn-ax1167gr
   $(Device/uimage-lzma-loader)
   IMAGE_SIZE := 15552k
